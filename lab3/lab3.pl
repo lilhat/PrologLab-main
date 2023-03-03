@@ -132,31 +132,31 @@
 
 % Part 4
 
-s(s(NP, VP)) --> np(NP), vp(VP).
+% s(s(NP, VP)) --> np(NP, Num), vp(VP, Num).
 
-np(np(DET, N)) --> det(DET), n(N).
+% np(np(Det, N), Num) --> det(Det, Num), n(N, Num).
 
-vp(vp(IV)) --> iv(IV).
-vp(vp(V, NP)) --> v(V), np(NP).
-vp(vp(V)) --> v(V).
+% vp(vp(IV), Num) --> iv(IV, Num).
+% vp(vp(V, NP), Num) --> v(V, Num), np(NP, _).
+% vp(vp(V), Num) --> v(V, Num).
 
-det(det(Word)) --> [Word], {lex(Word, det)}.
+% det(det(Word), Num) --> [Word], {lex(Word, det, Num)}.
 
-n(n(Word)) --> [Word], {lex(Word, n)}.
+% n(n(Word), Num) --> [Word], {lex(Word, n, Num)}.
 
-iv(iv(Word)) --> [Word], {lex(Word, iv)}.
+% iv(iv(Word), Num) --> [Word], {lex(Word, iv, Num)}.
 
-v(v(Word), NP) --> [Word], np(NP), {lex(Word, v)}.
-v(v(Word)) --> [Word], {lex(Word, v)}.
+% v(v(Word), Num) --> [Word], {lex(Word, v, Num)}.
 
-lex(two, det).
-lex(the, det).
-lex(a, det).
-lex(woman, n).
-lex(women, n).
-lex(man, n).
-lex(men, n).
-lex(hire, v).
-lex(hires, v).
-lex(fall, iv).
-lex(falls, iv).
+% lex(two, det, plural).
+% lex(the, det, plural).
+% lex(the, det, singular).
+% lex(a, det, singular).
+% lex(woman, n, singular).
+% lex(women, n, plural).
+% lex(man, n, singular).
+% lex(men, n, plural).
+% lex(hire, v, plural).
+% lex(hires, v, singular).
+% lex(fall, iv, plural).
+% lex(falls, iv, singular).
