@@ -5,12 +5,11 @@ np(np(Pro), Num, Person, Role, Anim) --> pro(Pro, Num, Person, Role, Anim).
 np(np(Det, Adj, N), Num, _, _, Anim) --> det(Det, Num), jp(Adj, Num), nbar(N, Num, Anim).
 np(np(Det, N, PP), Num, _, _, Anim) --> det(Det, Num), nbar(N, Num, Anim), pp(PP).
 
-nbar(nbar(JP, NBar), Num, Anim) --> jp(JP, Num), nbar(NBar, Num, Anim).
-nbar(nbar(JP, NBar), Num, Anim) --> jp(JP, Num), nbar(NBar, Num, Anim).
-nbar(n(N), Num, Anim) --> n(N, Num, Anim).
-nbar(np(NP, Num, Anim)) --> np(NP, Num, _, Anim).
+nbar(nbar(JP), Num, _) --> jp(JP, Num).
+nbar(nbar(N), Num, Anim) --> n(N, Num, Anim).
+nbar(nbar(NP, Num, Anim)) --> np(NP, Num, _, Anim).
 
-jp(jp(Adj), Num) --> adj(Adj, Num).
+jp(jp(Adj, N), Num) --> adj(Adj, Num), n(N, Num, _).
 jp(jp(Adj, JP), Num) --> adj(Adj, Num), jp(JP, Num).
 
 vp(vp(V, NP), Num, Person, Role, Anim) --> v(V, Num, Person, Anim), np(NP, _, _, Role, _).
@@ -96,3 +95,103 @@ lex(tall,adj).
 lex(on,prep).
 lex(in,prep).
 lex(under,prep).
+
+
+% ?- s(Tree,[the,woman,sees,the,apples],[]).
+% Tree = s(np(det(the), nbar(n(woman))), vp(v(sees), np(det(the), nbar(n(apples))))) .
+
+% ?- s(Tree,[a,woman,knows,him],[]).
+% Tree = s(np(det(a), nbar(n(woman))), vp(v(knows), np(pro(him)))) .
+
+% ?- s(Tree,[two,woman,hires,a,man],[]).
+% false.
+
+% ?- s(Tree,[two,women,hire,a,man],[]).
+% Tree = s(np(det(two), nbar(n(women))), vp(v(hire), np(det(a), nbar(n(man))))) .
+
+% ?- s(Tree,[she,knows,her],[]).
+% Tree = s(np(pro(she)), vp(v(knows), np(pro(her)))) .
+
+% ?- s(Tree,[she,know,the,man],[]).
+% false.
+
+% ?- s(Tree,[us,see,the,apple],[]).
+% false.
+
+% ?- s(Tree,[we,see,the,apple],[]).
+% Tree = s(np(pro(we)), vp(v(see), np(det(the), nbar(n(apple))))) .
+
+% ?- s(Tree,[i,know,a,short,man],[]).
+% Tree = s(np(pro(i)), vp(v(know), np(det(a), nbar(jp(adj(short), n(man)))))) .
+
+% ?- s(Tree,[he,hires,they],[]).
+% false.
+
+% ?- s(Tree,[two,apples,fall],[]).
+% Tree = s(np(det(two), nbar(n(apples))), vp(iv(fall))) .
+
+% ?- s(Tree,[the,apple,falls],[]).
+% Tree = s(np(det(the), nbar(n(apple))), vp(iv(falls))) .
+
+% ?- s(Tree,[the,apples,fall],[]).
+% Tree = s(np(det(the), nbar(n(apples))), vp(iv(fall))) .
+
+% ?- s(Tree,[i,sleep],[]).
+% Tree = s(np(pro(i)), vp(iv(sleep))) .
+
+% ?- s(Tree,[you,sleep],[]).
+% Tree = s(np(pro(you)), vp(iv(sleep))) .
+
+% ?- s(Tree,[she,sleeps],[]).
+% Tree = s(np(pro(she)), vp(iv(sleeps))) .
+
+% ?- s(Tree,[he,sleep],[]).
+% false.
+
+% ?- s(Tree,[them,sleep],[]).
+% false.
+
+% ?- s(Tree,[a,men,sleep],[]).
+% false.
+
+% ?- s(Tree,[the,tall,woman,sees,the,red],[]).
+% false.
+
+% ?- s(Tree,[the,young,tall,man,knows,the,old,short,woman],[]).
+% Tree = s(np(det(the), nbar(jp(adj(young), jp(adj(tall), n(man))))), vp(v(knows), np(det(the), nbar(jp(adj(old), jp(adj(short), n(woman))))))) .
+
+% ?- s(Tree,[a,man,tall,knows,the,short,woman],[]).
+% false.
+
+% ?- s(Tree,[a,man,on,a,chair,sees,a,woman,in,a,room],[]).
+% Tree = s(np(det(a), nbar(n(man)), pp(prep(on), np(det(a), nbar(n(chair))))), vp(v(sees), np(det(a), nbar(n(woman)), pp(prep(in), np(det(a), nbar(n(room))))))) .
+
+% ?- s(Tree,[a,man,on,a,chair,sees,a,woman,a,room,in],[]).
+% false.
+
+% ?- s(Tree,[the,tall,young,woman,in,a,room,on,the,chair,in,a,room,in,the,room,sees,the,red,apples,under,the,chair],[]).
+% Tree = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))), pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the), nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...)), pp(prep(...), np(..., ...))))))))), vp(v(sees), np(det(the), nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the), nbar(n(chair))))))) .
+
+% ?- s(Tree,[the,woman,sees,the,apples],[]).
+% Tree = s(np(det(the), nbar(n(woman))), vp(v(sees), np(det(the), nbar(n(apples))))) .
+
+% ?- s(Tree,[a,woman,knows,him],[]).
+% Tree = s(np(det(a), nbar(n(woman))), vp(v(knows), np(pro(him)))) .
+
+% ?- s(Tree,[the,man,sleeps],[]).
+% Tree = s(np(det(the), nbar(n(man))), vp(iv(sleeps))) .
+
+% ?- s(Tree,[the,room,sleeps],[]).
+% false.
+
+% ?- s(Tree,[the,apple,sees,the,chair],[]).
+% false.
+
+% ?- s(Tree,[the,rooms,know,the,man],[]).
+% false.
+
+% ?- s(Tree,[the,apple,falls],[]).
+% Tree = s(np(det(the), nbar(n(apple))), vp(iv(falls))) .
+
+% ?- s(Tree,[the,man,falls],[]).
+% Tree = s(np(det(the), nbar(n(man))), vp(iv(falls))) .
